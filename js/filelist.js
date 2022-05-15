@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2014
  *
@@ -7,9 +8,7 @@
  * See the COPYING-README file.
  *
  */
-
 (function () {
-
 	/**
 	 * @class OCA.Files.FileList
 	 * @classdesc
@@ -1458,24 +1457,6 @@
 				if (showHidden || !tr.hasClass('hidden-file')) {
 					count--;
 				}
-				// let path = fileData.path;
-				// $.ajax({
-				// 	url: `http://nextcloud_dev.local/ocs/v2.php/apps/files_sharing/api/v1/shares/is_in_accessible_by_path`,
-				// 	type: 'POST',
-				// 	data: {
-				// 		"folder": path
-				// 	},
-				// 	dataType: 'json', // added data type
-				// 	async: false,
-				// 	success: function (res) {
-				// 		const data = res.result;
-				// 		if (data) {
-				// 			newTrs.forEach(tr => {
-				// 				tr.addClass('hidden');
-				// 			})
-				// 		}
-				// 	}
-				// });
 			}
 
 			// trigger event for newly added rows
@@ -1495,7 +1476,8 @@
 				}, 0);
 			}
 			$.ajax({
-				url: `http://nextcloud_dev.local/ocs/v2.php/apps/files_sharing/api/v1/shares/is_in_accessible_by_path`,
+				// url: `http://nextcloud_24.local/ocs/v2.php/apps/files_sharing/api/v1/shares/is_in_accessible_by_path`,
+				url: OC.generateUrl('/ocs/v2.php/apps/files_sharing/api/v1/shares/is_in_accessible_by_path'),
 				type: 'POST',
 				data: {
 					"folder": fileData.path
@@ -1506,8 +1488,11 @@
 					const data = res.result;
 					if (data) {
 						newTrs.forEach(tr => {
-							tr.addClass('hidden');
+							// tr.remove();
+							tr.addClass("hidden");
+							tr.empty();
 						})
+						setTimeout(function(){ $("#emptycontent").removeClass("hidden") }, 1000);
 					}
 				}
 			});
@@ -1992,7 +1977,7 @@
 				this.updateEmptyContent();
 			}
 			$.ajax({
-				url: `http://nextcloud_dev.local/ocs/v2.php/apps/files_sharing/api/v1/shares/is_in_accessible_by_path`,
+				url: OC.generateUrl('/ocs/v2.php/apps/files_sharing/api/v1/shares/is_in_accessible_by_path'),
 				type: 'POST',
 				data: {
 					"folder": fileData.path
@@ -2002,7 +1987,10 @@
 				success: function (res) {
 					const data = res.result;
 					if (data) {
+						// $tr.remove();
 						$tr.addClass('hidden');
+						$tr.empty();
+						setTimeout(function(){ $("#emptycontent").removeClass("hidden") }, 1000);
 					}
 				}
 			});
@@ -4091,4 +4079,3 @@ window.addEventListener('DOMContentLoaded', function () {
 	});
 
 });
-
